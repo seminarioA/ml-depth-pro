@@ -99,19 +99,19 @@ The Docker image is automatically built and published to Docker Hub via GitHub A
 
 ```bash
 # Pull the latest image
-docker pull <dockerhub-username>/ml-depth-pro:latest
+docker pull your-dockerhub-username/ml-depth-pro:latest
 
 # Run the container
 docker run -p 8000:8000 \
   -v $(pwd)/checkpoints:/app/checkpoints \
-  <dockerhub-username>/ml-depth-pro:latest
+  your-dockerhub-username/ml-depth-pro:latest
 ```
 
 For GPU support (requires nvidia-docker):
 ```bash
 docker run --gpus all -p 8000:8000 \
   -v $(pwd)/checkpoints:/app/checkpoints \
-  <dockerhub-username>/ml-depth-pro:latest
+  your-dockerhub-username/ml-depth-pro:latest
 ```
 
 **Note:** See [DOCKER_HUB_SETUP.md](DOCKER_HUB_SETUP.md) for instructions on setting up automatic Docker Hub deployments.
