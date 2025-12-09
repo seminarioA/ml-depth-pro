@@ -73,7 +73,10 @@ app = FastAPI(
 
 # Add CORS middleware - allow all origins (configure for production)
 # For production, set ALLOWED_ORIGINS environment variable with comma-separated domains
-allowed_origins = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
+allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "*")
+allowed_origins = [origin.strip() for origin in allowed_origins_str.split(",") if origin.strip()]
+if not allowed_origins:
+    allowed_origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -122,7 +125,8 @@ def process_frame_sync(frame_bytes: bytes) -> Tuple[bytes, Optional[str]]:
 
     except Exception as e:
         LOGGER.error(f"Error in process_frame_sync: {e}")
-        return None, None
+        # Return original frame bytes on error to maintain consistent return type
+        return frame_bytes, None
 
 
 @app.websocket("/video/in")

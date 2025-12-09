@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    YOLO_MODEL_PATH=/app/models/yolov8n.pt \
+    YOLO_MODEL_PATH=yolov8n.pt \
     DEPTH_CHECKPOINT_PATH=/app/checkpoints/depth_pro_checkpoint.pt
 
 # Install system dependencies

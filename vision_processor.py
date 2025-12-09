@@ -166,7 +166,14 @@ class VisionProcessor:
                 is_person = class_name.lower() == "person"
 
                 # Calculate median depth within bounding box
-                bbox_depth = depth_map[y1:y2, x1:x2]
+                # Validate coordinates to prevent out-of-bounds errors
+                height, width = depth_map.shape
+                y1_safe = max(0, min(y1, height - 1))
+                y2_safe = max(0, min(y2, height))
+                x1_safe = max(0, min(x1, width - 1))
+                x2_safe = max(0, min(x2, width))
+
+                bbox_depth = depth_map[y1_safe:y2_safe, x1_safe:x2_safe]
                 if bbox_depth.size > 0:
                     median_depth = float(np.median(bbox_depth))
                 else:
