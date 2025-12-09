@@ -7,7 +7,7 @@ dependencies = [
     "torch",
     "torchvision",
     "timm",
-    "numpy<2",
+    "numpy>=1.26,<2.3",
     "pillow_heif",
     "matplotlib",
 ]
@@ -32,7 +32,7 @@ exclude = [
     "**/node_modules",
     "**/__pycache__",
 ]
-pythonVersion = "3.9"
+pythonVersion = "3.10"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -56,4 +56,4 @@ extend-exclude = [
     "third_party",
 ]
 src = ["depth_pro", "tests"]
-target-version = "py39"
+target-version = "py310"
