@@ -31,8 +31,9 @@ RUN useradd -m -u 1000 appuser && \
 # Set working directory
 WORKDIR /app
 
-# Copy requirements and install dependencies
+# Copy requirements and source code for installation
 COPY --chown=appuser:appuser pyproject.toml ./
+COPY --chown=appuser:appuser src/ ./src/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -e . && \
@@ -44,8 +45,7 @@ RUN pip install --no-cache-dir -e . && \
     ultralytics \
     && rm -rf /root/.cache/pip
 
-# Copy application files
-COPY --chown=appuser:appuser src/ ./src/
+# Copy remaining application files
 COPY --chown=appuser:appuser vision_processor.py ./
 COPY --chown=appuser:appuser api_server.py ./
 
