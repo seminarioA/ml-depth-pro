@@ -2,7 +2,6 @@
 """Monolithic FastAPI WebSocket server for vision processing."""
 
 import asyncio
-import io
 import logging
 import warnings
 from concurrent.futures import ThreadPoolExecutor
@@ -13,7 +12,6 @@ import cv2
 import numpy as np
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-
 from vision_processor import VisionProcessor
 
 # Filter warnings

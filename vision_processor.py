@@ -4,16 +4,14 @@
 import logging
 import os
 import warnings
-from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Optional, Tuple
 
 import cv2
+import depth_pro
 import numpy as np
 import torch
 from PIL import Image
 from ultralytics import YOLO
-
-import depth_pro
 
 # Filter warnings
 warnings.filterwarnings("ignore", category=FutureWarning)

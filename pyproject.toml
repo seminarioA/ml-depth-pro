@@ -7,7 +7,7 @@ dependencies = [
     "torch",
     "torchvision",
     "timm",
-    "numpy<2",
+    "numpy>=1.26,<2.3",
     "pillow_heif",
     "matplotlib",
 ]
