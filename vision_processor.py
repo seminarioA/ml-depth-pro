@@ -23,6 +23,12 @@ LOGGER = logging.getLogger(__name__)
 class VisionProcessor:
     """Vision processor combining YOLOv8 object detection with Depth Pro depth estimation."""
 
+    # Default Depth Pro configuration
+    DEFAULT_PATCH_ENCODER_PRESET = "dinov2l16_384"
+    DEFAULT_IMAGE_ENCODER_PRESET = "dinov2l16_384"
+    DEFAULT_FOV_ENCODER_PRESET = "dinov2l16_384"
+    DEFAULT_DECODER_FEATURES = 256
+
     def __init__(
         self,
         yolo_model_path: Optional[str] = None,
@@ -77,12 +83,12 @@ class VisionProcessor:
             from depth_pro.depth_pro import DepthProConfig
 
             config = DepthProConfig(
-                patch_encoder_preset="dinov2l16_384",
-                image_encoder_preset="dinov2l16_384",
+                patch_encoder_preset=self.DEFAULT_PATCH_ENCODER_PRESET,
+                image_encoder_preset=self.DEFAULT_IMAGE_ENCODER_PRESET,
                 checkpoint_uri=self.depth_checkpoint_path,
-                decoder_features=256,
+                decoder_features=self.DEFAULT_DECODER_FEATURES,
                 use_fov_head=True,
-                fov_encoder_preset="dinov2l16_384",
+                fov_encoder_preset=self.DEFAULT_FOV_ENCODER_PRESET,
             )
 
             # Determine precision based on device

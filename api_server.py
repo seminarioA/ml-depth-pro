@@ -6,7 +6,7 @@ import logging
 import warnings
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
-from typing import Set
+from typing import Optional, Set, Tuple
 
 import cv2
 import numpy as np
@@ -80,7 +80,7 @@ app.add_middleware(
 )
 
 
-def process_frame_sync(frame_bytes: bytes) -> tuple[bytes, str]:
+def process_frame_sync(frame_bytes: bytes) -> Tuple[bytes, Optional[str]]:
     """Process frame synchronously in thread pool.
 
     Args:
@@ -265,9 +265,9 @@ async def root():
     return {
         "status": "running",
         "endpoints": {
-            "video_in": "ws://localhost:8000/video/in",
-            "video_out": "ws://localhost:8000/video/out",
-            "tts": "ws://localhost:8000/tts",
+            "video_in": "/video/in",
+            "video_out": "/video/out",
+            "tts": "/tts",
         },
     }
 
