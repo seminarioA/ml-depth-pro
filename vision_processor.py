@@ -65,27 +65,24 @@ class VisionProcessor:
                 "DEPTH_CHECKPOINT_PATH", "checkpoints/depth_pro_checkpoint.pt"
             )
 
-        self.yolo_model_path = yolo_model_path
-        self.depth_checkpoint_path = depth_checkpoint_path
-
         # Load models
         try:
-            LOGGER.info(f"Loading YOLOv8 model from {self.yolo_model_path}")
-            self.yolo_model = YOLO(self.yolo_model_path)
+            LOGGER.info(f"Loading YOLOv8 model from {yolo_model_path}")
+            self.yolo_model = YOLO(yolo_model_path)
             LOGGER.info("YOLOv8 model loaded successfully")
         except Exception as e:
             LOGGER.error(f"Failed to load YOLOv8 model: {e}")
             raise
 
         try:
-            LOGGER.info(f"Loading Depth Pro model from {self.depth_checkpoint_path}")
+            LOGGER.info(f"Loading Depth Pro model from {depth_checkpoint_path}")
             # Create custom config with the checkpoint path
             from depth_pro.depth_pro import DepthProConfig
 
             config = DepthProConfig(
                 patch_encoder_preset=self.DEFAULT_PATCH_ENCODER_PRESET,
                 image_encoder_preset=self.DEFAULT_IMAGE_ENCODER_PRESET,
-                checkpoint_uri=self.depth_checkpoint_path,
+                checkpoint_uri=depth_checkpoint_path,
                 decoder_features=self.DEFAULT_DECODER_FEATURES,
                 use_fov_head=True,
                 fov_encoder_preset=self.DEFAULT_FOV_ENCODER_PRESET,

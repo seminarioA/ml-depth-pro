@@ -89,6 +89,7 @@ The server will start on `http://localhost:8000` with the following endpoints:
 - `YOLO_MODEL_PATH` - Path to YOLOv8 model (default: `yolov8n.pt`)
 - `DEPTH_CHECKPOINT_PATH` - Path to Depth Pro checkpoint (default: `checkpoints/depth_pro_checkpoint.pt`)
 - `METRIC_ALERT_THRESHOLD` - Distance threshold in meters for alerts (default: 1.5)
+- `ALLOWED_ORIGINS` - Comma-separated list of allowed CORS origins (default: `*` for all origins). For production, set to specific domains like `http://localhost:3000,https://yourdomain.com`
 
 ### Running with Docker
 

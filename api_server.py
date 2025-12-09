@@ -3,6 +3,7 @@
 
 import asyncio
 import logging
+import os
 import warnings
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
@@ -70,11 +71,13 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Add CORS middleware - allow all origins
+# Add CORS middleware - allow all origins (configure for production)
+# For production, set ALLOWED_ORIGINS environment variable with comma-separated domains
+allowed_origins = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=True if allowed_origins != ["*"] else False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -100,7 +103,8 @@ def process_frame_sync(frame_bytes: bytes) -> Tuple[bytes, Optional[str]]:
 
         if frame is None:
             LOGGER.warning("Failed to decode frame")
-            return None, None
+            # Return original bytes so caller doesn't crash
+            return frame_bytes, None
 
         # Process frame with vision processor
         annotated_frame, tts_alert = vision_processor.process_frame(frame)
@@ -109,7 +113,8 @@ def process_frame_sync(frame_bytes: bytes) -> Tuple[bytes, Optional[str]]:
         success, buffer = cv2.imencode(".jpg", annotated_frame)
         if not success:
             LOGGER.warning("Failed to encode processed frame")
-            return None, None
+            # Return original bytes so caller doesn't crash
+            return frame_bytes, tts_alert
 
         processed_frame_bytes = buffer.tobytes()
 

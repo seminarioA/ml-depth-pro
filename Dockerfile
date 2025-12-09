@@ -51,11 +51,8 @@ COPY --chown=appuser:appuser api_server.py ./
 
 # Download YOLOv8n model at build time
 USER appuser
-RUN python -c "from ultralytics import YOLO; YOLO('yolov8n.pt')" && \
-    mkdir -p /home/appuser/.cache/ultralytics && \
-    cp /home/appuser/.config/Ultralytics/yolov8n.pt /app/models/yolov8n.pt 2>/dev/null || \
-    find /home/appuser -name "yolov8n.pt" -exec cp {} /app/models/yolov8n.pt \; || \
-    echo "YOLOv8n model will be downloaded at runtime"
+RUN python -c "from ultralytics import YOLO; model = YOLO('yolov8n.pt'); print('YOLOv8n model downloaded')" || \
+    echo "Warning: YOLOv8n model download failed, will retry at runtime"
 
 # Expose port
 EXPOSE 8000
