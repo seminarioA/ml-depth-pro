@@ -108,7 +108,10 @@ class VisionProcessor:
         Args:
         ----
             frame: Input frame as numpy array (BGR format from OpenCV).
-            f_px: Optional focal length in pixels. If None, estimated from image.
+            f_px: Optional focal length in pixels. If None, the Depth Pro model
+                will estimate it using the FOV head. For production use with
+                calibrated cameras, providing the actual focal length yields
+                more accurate metric depth estimates.
 
         Returns:
         -------
@@ -137,9 +140,6 @@ class VisionProcessor:
             # Transform and run depth inference
             image_tensor = self.depth_transform(pil_image)
 
-            # Note on focal length (f_px):
-            # If not provided, the model will estimate it using the FOV head.
-            # For production use, camera calibration would provide more accurate f_px.
             prediction = self.depth_model.infer(image_tensor, f_px=f_px)
             depth_map = prediction["depth"].cpu().numpy()
 

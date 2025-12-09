@@ -71,11 +71,16 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Add CORS middleware - allow all origins (configure for production)
+# Add CORS middleware - configurable for production
 # For production, set ALLOWED_ORIGINS environment variable with comma-separated domains
+# Default allows all origins for development, but should be restricted in production
 allowed_origins_str = os.environ.get("ALLOWED_ORIGINS", "*")
 allowed_origins = [origin.strip() for origin in allowed_origins_str.split(",") if origin.strip()]
 if not allowed_origins:
+    LOGGER.warning(
+        "ALLOWED_ORIGINS is empty, defaulting to allow all origins (*). "
+        "Set ALLOWED_ORIGINS for production deployment."
+    )
     allowed_origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
